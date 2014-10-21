@@ -61,10 +61,10 @@ SynthDef(\lead, {
 
 (
 SynthDef(\sample, {
-    arg buffer, amp = 0.2, rate = 1, dur = 1, release = 0.4;
+    arg buffer, amp = 0.2, speed = 1, dur = 1, release = 0.4;
     var duration, phase, env, x;
 
-    duration = BufFrames.ir(buffer) / SampleRate.ir / rate;
+    duration = BufFrames.ir(buffer) / SampleRate.ir / abs(speed);
     duration = dur.clip(0, duration);
 
     release = release.clip(0,1);
@@ -74,8 +74,8 @@ SynthDef(\sample, {
         [duration * (1 - release), duration * release]
     ).ar(doneAction:2);
 
-    x = PlayBuf.ar(1, buffer, rate);
-    x = x * env * amp;
+    x = PlayBuf.ar(1, buffer, speed, loop: 1);
+    x = x * amp * env ;
 
     Out.ar(0, Pan2.ar(x));
 }).add
@@ -83,10 +83,16 @@ SynthDef(\sample, {
 
 // Test sample playback:
 (
-b = Buffer.read(
-    Server.default,
-    "your/favorite/sample.wav"
-)
+var files, buffers = List();
+
+files = [
+    "my/favorite/kick.wav",
+    "my/favorite/snare.wav",
+];
+
+files.do { arg file, index;
+    buffers.add( Buffer.read(Server.default, file, bufnum: index) );
+};
 )
 
-(instrument: \sample, buffer: b, dur: 0.1, release: 0.5, amp: 0.2).play
+(instrument: \sample, buffer: 0, speed: 1.0, dur: 2, release: 0.5, amp: 0.5).play

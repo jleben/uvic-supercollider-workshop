@@ -118,3 +118,49 @@ if (x > 5) { x = 0 } { x = x + 1 };
 // Alternative form of "do":
 5.do { arg index; (index * 2).postln };
 
+
+// ARRAYS
+
+// An array of numbers:
+[2, 7, 3, 4]
+
+// All integers from 1 to 10
+ (1..10)
+
+// Start with 5 and 7 and continue with the same distance up to 10:
+ (5,7..20)
+
+// You can do math with arrays and numbers:
+[2, 7, 3, 4] + 10
+[1, 2] + [10, 20]
+
+// Join arrays:
+[1,2,3] ++ [7,8,9]
+
+[1, 5, 6].size // Amount of elements
+[1, 5, 6].reverse // Reverse elements
+[1, 5, 6].scramble // Randomly scrambled elements
+[1, 5, 6].choose // Random choice of an element
+
+// Access individual array elements:
+
+a = [6, 3, 5, 2, 7];
+a[0] // first element (element indexes start with 0)
+a[1] // second element
+a[2] // third element
+a[-1] // invalid index
+a[3] = 111; // Modify an element
+
+
+// OBJECTS AND CLASSES
+
+123.class
+123.456.class
+[1,2,3].class
+
+// A "class method" creates an instance of that class:
+a = Array.series(10, 5, 2)
+
+// An "instance method" operates on that instance of a class:
+a.reverse
+

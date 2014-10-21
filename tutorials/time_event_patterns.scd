@@ -164,4 +164,5 @@ Pbind(
 )
 
 
-
+// Get audio samples here:
+// http://webhome.csc.uvic.ca/~jleben/supercollider/audio_samples.zip

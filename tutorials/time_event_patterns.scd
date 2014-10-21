@@ -110,3 +110,58 @@ p2 = Pbind(
 );
 Ppar([p1,p2]).play
 )
+
+//// Clocks, Quantization /////
+
+(
+{
+    5.do { (degree: 10.rand).play; 0.3.wait }
+}.fork(SystemClock);
+)
+
+(
+{
+    inf.do { (degree: 10.rand).play; 0.3.wait }
+}.fork(TempoClock.default);
+)
+// Adjust beats per second:
+TempoClock.default.tempo = 0.5;
+TempoClock.default.tempo = 1.0;
+TempoClock.default.tempo = 1.5;
+
+// Seconds since the "UNIX epoch" (1 January 1970)
+// "https://en.wikipedia.org/wiki/Unix_time"
+SystemClock.seconds
+
+// Beats since SuperCollider was started
+TempoClock.default.beats
+
+// Create a new TempoClock
+c = TempoClock();
+// Beats since the creation of the clock:
+c.beats.postln;
+
+
+// Quantization:
+(
+var quantum = 0.5;
+{
+    15.do { arg index;
+        TempoClock.default.beats.postln;
+        (degree: index - 4, dur: 0.5).play;
+        0.5.wait
+    }
+}.fork(TempoClock.default, quantum);
+)
+
+// Same applies to playing event patterns:
+(
+var quantum = 0.3;
+Pbind(
+    \degree, Pseq([1,3,5], inf) + Pstutter(3, Pseq( (0..5), 2)),
+    \dur, quantum
+).play(TempoClock.default, quant: quantum)
+)
+
+
+

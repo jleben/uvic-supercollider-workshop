@@ -121,25 +121,20 @@
 )
 
 // Granular synthesis:
+
+// First, load a sample into the buffer number 0
 (
-// First, load all your samples:
-var files, buffers = List();
-files = [
-    "file/one.wav",
-    "file/two.wav",
-];
-files.do { arg file, index;
-    buffers.add( Buffer.read(Server.default, file, bufnum: index) );
-};
-b = buffers;
+b = Buffer.read(
+    Server.default,
+    path: "an/awesome/sound.wav",
+    bufnum: 0
+)
 )
 
-// Test play your samples:
-b[0].play;
-b[1].play;
-//...
+// Test-play the sample:
+b.play
 
-// Now play a granular synthesizer:
+// Now play a granular synthesizer using buffer number 0.
 (
 {
     var buffer = 0, grains;
@@ -149,9 +144,9 @@ b[1].play;
         bufnum: buffer,
         rate: 1,
         centerPos: MouseX.kr(0.0, BufDur.ir(buffer)) + WhiteNoise.ar(0.01),
-        dur: 0.2,
+        dur: 0.1,
         pan: 0,
-        amp: 0.15
+        amp: 0.4
     );
     grains
 }.play

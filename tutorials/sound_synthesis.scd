@@ -122,7 +122,10 @@
 
 // Granular synthesis:
 
-// First, load a sample into the buffer number 0
+// Download this audio sample:
+// http://webhome.csc.uvic.ca/~jleben/supercollider/cello_phrase.wav
+
+// Load the sample into the buffer number 0
 (
 b = Buffer.read(
     Server.default,
